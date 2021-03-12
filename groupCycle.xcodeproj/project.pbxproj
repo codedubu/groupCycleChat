@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		79247B0F25FBEBF000FAF76C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B0E25FBEBF000FAF76C /* AppDelegate.swift */; };
 		79247B1125FBEBF000FAF76C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1025FBEBF000FAF76C /* SceneDelegate.swift */; };
-		79247B1325FBEBF000FAF76C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1225FBEBF000FAF76C /* ViewController.swift */; };
+		79247B1325FBEBF000FAF76C /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1225FBEBF000FAF76C /* GroupsViewController.swift */; };
 		79247B1625FBEBF000FAF76C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1425FBEBF000FAF76C /* Main.storyboard */; };
 		79247B1825FBEBF200FAF76C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1725FBEBF200FAF76C /* Assets.xcassets */; };
 		79247B1B25FBEBF200FAF76C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1925FBEBF200FAF76C /* LaunchScreen.storyboard */; };
+		79247B2E25FBF6BD00FAF76C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B2D25FBF6BD00FAF76C /* LoginViewController.swift */; };
+		79247B3125FBF6C700FAF76C /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3025FBF6C700FAF76C /* RegisterViewController.swift */; };
+		79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */; };
+		79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3825FBF70F00FAF76C /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		79247B0B25FBEBF000FAF76C /* groupCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79247B0E25FBEBF000FAF76C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79247B1025FBEBF000FAF76C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		79247B1225FBEBF000FAF76C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		79247B1225FBEBF000FAF76C /* GroupsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		79247B1525FBEBF000FAF76C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		79247B1725FBEBF200FAF76C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79247B1A25FBEBF200FAF76C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79247B1C25FBEBF200FAF76C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79247B2D25FBF6BD00FAF76C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		79247B3025FBF6C700FAF76C /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		79247B3825FBF70F00FAF76C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +64,75 @@
 		79247B0D25FBEBF000FAF76C /* groupCycle */ = {
 			isa = PBXGroup;
 			children = (
-				79247B0E25FBEBF000FAF76C /* AppDelegate.swift */,
-				79247B1025FBEBF000FAF76C /* SceneDelegate.swift */,
-				79247B1225FBEBF000FAF76C /* ViewController.swift */,
-				79247B1425FBEBF000FAF76C /* Main.storyboard */,
-				79247B1725FBEBF200FAF76C /* Assets.xcassets */,
-				79247B1925FBEBF200FAF76C /* LaunchScreen.storyboard */,
-				79247B1C25FBEBF200FAF76C /* Info.plist */,
+				79247B2B25FBF5A200FAF76C /* Models */,
+				79247B2925FBF59400FAF76C /* Controllers */,
+				79247B2C25FBF5F000FAF76C /* Views */,
+				79247B2325FBF45200FAF76C /* Resources */,
 			);
 			path = groupCycle;
+			sourceTree = "<group>";
+		};
+		79247B2325FBF45200FAF76C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				79247B0E25FBEBF000FAF76C /* AppDelegate.swift */,
+				79247B1025FBEBF000FAF76C /* SceneDelegate.swift */,
+				79247B1725FBEBF200FAF76C /* Assets.xcassets */,
+				79247B1C25FBEBF200FAF76C /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		79247B2725FBF50200FAF76C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				79247B1425FBEBF000FAF76C /* Main.storyboard */,
+				79247B1925FBEBF200FAF76C /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		79247B2925FBF59400FAF76C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				79247B2A25FBF59900FAF76C /* View Controllers */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		79247B2A25FBF59900FAF76C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				79247B3825FBF70F00FAF76C /* ProfileViewController.swift */,
+				79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */,
+				79247B1225FBEBF000FAF76C /* GroupsViewController.swift */,
+				79247B3325FBF6D400FAF76C /* Login */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		79247B2B25FBF5A200FAF76C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		79247B2C25FBF5F000FAF76C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79247B2725FBF50200FAF76C /* Storyboards */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		79247B3325FBF6D400FAF76C /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				79247B2D25FBF6BD00FAF76C /* LoginViewController.swift */,
+				79247B3025FBF6C700FAF76C /* RegisterViewController.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +205,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79247B1325FBEBF000FAF76C /* ViewController.swift in Sources */,
+				79247B2E25FBF6BD00FAF76C /* LoginViewController.swift in Sources */,
+				79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */,
+				79247B3125FBF6C700FAF76C /* RegisterViewController.swift in Sources */,
+				79247B1325FBEBF000FAF76C /* GroupsViewController.swift in Sources */,
+				79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */,
 				79247B0F25FBEBF000FAF76C /* AppDelegate.swift in Sources */,
 				79247B1125FBEBF000FAF76C /* SceneDelegate.swift in Sources */,
 			);
@@ -288,7 +360,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7VVA7JF63G;
-				INFOPLIST_FILE = groupCycle/Info.plist;
+				INFOPLIST_FILE = groupCycle/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,7 +379,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7VVA7JF63G;
-				INFOPLIST_FILE = groupCycle/Info.plist;
+				INFOPLIST_FILE = groupCycle/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
