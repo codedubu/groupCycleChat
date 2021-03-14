@@ -6,5 +6,8 @@ target 'groupCycle' do
   use_frameworks!
 
   # Pods for groupCycle
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 
 end

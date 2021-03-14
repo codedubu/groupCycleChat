@@ -1,0 +1,6 @@
+framework module Pods_groupCycle {
+  umbrella header "Pods-groupCycle-umbrella.h"
+
+  export *
+  module * { export * }
+}
