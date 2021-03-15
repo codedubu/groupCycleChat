@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
         title = "Log In"
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register →",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapRegister))
@@ -146,7 +146,7 @@ class LoginViewController: UIViewController {
                                    width: scrollView.width - 60,
                                    height: 52)
         facebookLoginButton.frame = CGRect(x: 30,
-                                           y: loginButton.bottom + 48,
+                                           y: loginButton.bottom + 84,
                                            width: scrollView.width - 60,
                                            height: 52)
         googleLoginButton.frame = CGRect(x: 30,

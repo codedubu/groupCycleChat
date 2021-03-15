@@ -15,8 +15,14 @@ target 'groupCycle' do
   #Firebase
   pod 'FBSDKLoginKit'
   
-  #Google
+  #Google Sign In
   pod 'GoogleSignIn'
+  
+  # Messaging Stuff
+  pod 'MessageKit'
+  pod 'JGProgressHUD'
+  pod 'RealmSwift'
+  pod 'SDWebImage'
 
 
 end
