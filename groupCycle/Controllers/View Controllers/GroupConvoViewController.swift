@@ -13,13 +13,11 @@ class GroupConvoViewController: UIViewController {
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        validateAuth()
         
     }
     
@@ -29,7 +27,6 @@ class GroupConvoViewController: UIViewController {
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let loginVC = LoginViewController()
             let navVC = UINavigationController(rootViewController: loginVC)
-            
             navVC.modalPresentationStyle = .fullScreen
             present(navVC, animated: false)
         }

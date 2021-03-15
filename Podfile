@@ -6,8 +6,17 @@ target 'groupCycle' do
   use_frameworks!
 
   # Pods for groupCycle
+  
+  #Firebase
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  
+  #Firebase
+  pod 'FBSDKLoginKit'
+  
+  #Google
+  pod 'GoogleSignIn'
+
 
 end
