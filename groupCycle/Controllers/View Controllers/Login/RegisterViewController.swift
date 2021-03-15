@@ -226,9 +226,27 @@ class RegisterViewController: UIViewController {
                     return
                 }
                 
-                DatabaseManager.shared.insertUser(with: GroupCycleUser(firstName: firstName,
-                                                                       lastName: lastName,
-                                                                       emailAddress: email))
+                let groupCycleUser = GroupCycleUser(firstName: firstName,
+                                                    lastName: lastName,
+                                                    emailAddress: email)
+                DatabaseManager.shared.insertUser(with: groupCycleUser, completion: { success in
+                    if success {
+                        //upload image
+                        guard let image = strongSelf.imageView.image, let data = image.pngData() else {
+                            return
+                        }
+                        let fileName = groupCycleUser.profilePictureFileName
+                        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+                            switch result {
+                            case .success(let downloadURL):
+                                UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                print(downloadURL)
+                            case .failure(let error):
+                                print("Storage manager error: \(error)")
+                            }
+                        }
+                    }
+                })
                 
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }

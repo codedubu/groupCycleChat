@@ -72,7 +72,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         DatabaseManager.shared.userExists(with: email) { (exists) in
             if !exists {
                 // insert to database
-                DatabaseManager.shared.insertUser(with: GroupCycleUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                let groupCycleUser = GroupCycleUser(firstName: firstName, lastName: lastName, emailAddress: email)
+                DatabaseManager.shared.insertUser(with: groupCycleUser, completion: { success in
+                    if success {
+                        //upload image
+                        
+                        if user.profile.hasImage {
+                            guard let url = user.profile.imageURL(withDimension: 200) else { return }
+                            
+                            URLSession.shared.dataTask(with: url) { (data, _, _) in
+                                guard let data = data else {
+                                    return
+                                }
+                                let fileName = groupCycleUser.profilePictureFileName
+                                StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+                                    switch result {
+                                    case .success(let downloadURL):
+                                        UserDefaults.standard.set(downloadURL, forKey: "profile_picture_url")
+                                        print(downloadURL)
+                                    case .failure(let error):
+                                        print("Storage manager error: \(error)")
+                                    }
+                                }
+                            } .resume()
+                        }
+                    }
+                })
             }
         }
         
@@ -82,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
-    
+        
         Firebase.Auth.auth().signIn(with: credential) { (authResult, error) in
             guard authResult != nil, error == nil else {
                 print("Failed to login with Google credentials.")

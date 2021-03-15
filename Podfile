@@ -11,6 +11,7 @@ target 'groupCycle' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
   
   #Firebase
   pod 'FBSDKLoginKit'
