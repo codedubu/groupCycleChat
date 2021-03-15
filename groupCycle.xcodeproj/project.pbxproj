@@ -10,7 +10,7 @@
 		4E54BDAB650CB3AAAD8E7AA3 /* Pods_groupCycle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E829F7D780FC706D569D3E0 /* Pods_groupCycle.framework */; };
 		79247B0F25FBEBF000FAF76C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B0E25FBEBF000FAF76C /* AppDelegate.swift */; };
 		79247B1125FBEBF000FAF76C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1025FBEBF000FAF76C /* SceneDelegate.swift */; };
-		79247B1325FBEBF000FAF76C /* GroupConvoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1225FBEBF000FAF76C /* GroupConvoViewController.swift */; };
+		79247B1325FBEBF000FAF76C /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B1225FBEBF000FAF76C /* GroupListViewController.swift */; };
 		79247B1625FBEBF000FAF76C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1425FBEBF000FAF76C /* Main.storyboard */; };
 		79247B1825FBEBF200FAF76C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1725FBEBF200FAF76C /* Assets.xcassets */; };
 		79247B1B25FBEBF200FAF76C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79247B1925FBEBF200FAF76C /* LaunchScreen.storyboard */; };
@@ -21,6 +21,7 @@
 		79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C7D25FBFD00005CBCBD /* Extensions.swift */; };
 		79DF7C9225FC0D1D005CBCBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */; };
 		79DF7C9725FED320005CBCBD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C9625FED320005CBCBD /* DatabaseManager.swift */; };
+		79DF7D1425FFD612005CBCBD /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7D1325FFD612005CBCBD /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +31,7 @@
 		79247B0B25FBEBF000FAF76C /* groupCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79247B0E25FBEBF000FAF76C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79247B1025FBEBF000FAF76C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		79247B1225FBEBF000FAF76C /* GroupConvoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupConvoViewController.swift; sourceTree = "<group>"; };
+		79247B1225FBEBF000FAF76C /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
 		79247B1525FBEBF000FAF76C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		79247B1725FBEBF200FAF76C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79247B1A25FBEBF200FAF76C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -42,6 +43,7 @@
 		79DF7C7D25FBFD00005CBCBD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		79DF7C9625FED320005CBCBD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		79DF7D1325FFD612005CBCBD /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +139,8 @@
 			children = (
 				79247B3825FBF70F00FAF76C /* ProfileViewController.swift */,
 				79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */,
-				79247B1225FBEBF000FAF76C /* GroupConvoViewController.swift */,
+				79247B1225FBEBF000FAF76C /* GroupListViewController.swift */,
+				79DF7D1325FFD612005CBCBD /* ChatViewController.swift */,
 				79247B3325FBF6D400FAF76C /* Login */,
 			);
 			path = "View Controllers";
@@ -321,10 +324,11 @@
 				79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */,
 				79247B3125FBF6C700FAF76C /* RegisterViewController.swift in Sources */,
 				79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */,
-				79247B1325FBEBF000FAF76C /* GroupConvoViewController.swift in Sources */,
+				79247B1325FBEBF000FAF76C /* GroupListViewController.swift in Sources */,
 				79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */,
 				79247B0F25FBEBF000FAF76C /* AppDelegate.swift in Sources */,
 				79247B1125FBEBF000FAF76C /* SceneDelegate.swift in Sources */,
+				79DF7D1425FFD612005CBCBD /* ChatViewController.swift in Sources */,
 				79DF7C9725FED320005CBCBD /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
