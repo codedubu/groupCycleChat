@@ -11,7 +11,6 @@ import JGProgressHUD
 
 class GroupListViewController: UIViewController {
     // MARK: - View Items
-    
     private let spinner = JGProgressHUD(style: .dark)
     
     private let tableView: UITableView = {
@@ -46,8 +45,25 @@ class GroupListViewController: UIViewController {
     
     @objc private func didTapComposeButton() {
         let newGroup = NewGroupViewController()
+        
+        newGroup.completion = { [weak self] result in
+            print("\(result)")
+            self?.createNewConversation(result: result)
+        }
+        
         let navVC = UINavigationController(rootViewController: newGroup)
         present(navVC, animated: true)
+    }
+    
+    private func createNewConversation(result: [String : String]) {
+        guard let name = result["name"], let email = result["email"] else { return }
+        
+        let chatVC = ChatViewController(with: email)
+        chatVC.isNewConversation = true
+        chatVC.title = name
+        chatVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(chatVC, animated: true)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,7 +115,7 @@ extension GroupListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let chatVC = ChatViewController()
+        let chatVC = ChatViewController(with: "doodoo@gmail.com")
         chatVC.title = "Mike Jones"
         chatVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatVC, animated: true)
