@@ -19,6 +19,7 @@
 		79247B3125FBF6C700FAF76C /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3025FBF6C700FAF76C /* RegisterViewController.swift */; };
 		79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */; };
 		79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3825FBF70F00FAF76C /* ProfileViewController.swift */; };
+		7932CD382603BEDD00A7CB08 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7932CD372603BEDD00A7CB08 /* GroupTableViewCell.swift */; };
 		79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C7D25FBFD00005CBCBD /* Extensions.swift */; };
 		79DF7C9225FC0D1D005CBCBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */; };
 		79DF7C9725FED320005CBCBD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C9625FED320005CBCBD /* DatabaseManager.swift */; };
@@ -42,6 +43,7 @@
 		79247B3025FBF6C700FAF76C /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
 		79247B3825FBF70F00FAF76C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7932CD372603BEDD00A7CB08 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
 		79DF7C7D25FBFD00005CBCBD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		79DF7C9625FED320005CBCBD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -98,10 +100,10 @@
 		79247B0D25FBEBF000FAF76C /* groupCycle */ = {
 			isa = PBXGroup;
 			children = (
-				79DF7C7C25FBFCF4005CBCBD /* Helpers */,
 				79247B2B25FBF5A200FAF76C /* Models */,
 				79247B2925FBF59400FAF76C /* Controllers */,
 				79247B2C25FBF5F000FAF76C /* Views */,
+				79DF7C7C25FBFCF4005CBCBD /* Helpers */,
 				79247B2325FBF45200FAF76C /* Resources */,
 			);
 			path = groupCycle;
@@ -140,8 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				79247B3825FBF70F00FAF76C /* ProfileViewController.swift */,
-				79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */,
 				79247B1225FBEBF000FAF76C /* GroupListViewController.swift */,
+				79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */,
 				79DF7D1325FFD612005CBCBD /* ChatViewController.swift */,
 				79247B3325FBF6D400FAF76C /* Login */,
 			);
@@ -158,6 +160,7 @@
 		79247B2C25FBF5F000FAF76C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7932CD362603BEC800A7CB08 /* Custom Cell */,
 				79247B2725FBF50200FAF76C /* Storyboards */,
 			);
 			path = Views;
@@ -170,6 +173,14 @@
 				79247B3025FBF6C700FAF76C /* RegisterViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		7932CD362603BEC800A7CB08 /* Custom Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7932CD372603BEDD00A7CB08 /* GroupTableViewCell.swift */,
+			);
+			path = "Custom Cell";
 			sourceTree = "<group>";
 		};
 		79DF7C7C25FBFCF4005CBCBD /* Helpers */ = {
@@ -326,6 +337,7 @@
 				79247B2E25FBF6BD00FAF76C /* LoginViewController.swift in Sources */,
 				79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */,
 				79229D6025FFEDF200924CD8 /* StorageManager.swift in Sources */,
+				7932CD382603BEDD00A7CB08 /* GroupTableViewCell.swift in Sources */,
 				79247B3125FBF6C700FAF76C /* RegisterViewController.swift in Sources */,
 				79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */,
 				79247B1325FBEBF000FAF76C /* GroupListViewController.swift in Sources */,

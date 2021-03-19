@@ -9,14 +9,29 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
+struct Group {
+    let id: String
+    let name: String
+    let otherUserEmail: String
+    let latestMessage: LatestMessage
+}
+
+struct LatestMessage {
+    let date: String
+    let text: String
+    let isRead: Bool
+}
+
 class GroupListViewController: UIViewController {
     // MARK: - View Items
     private let spinner = JGProgressHUD(style: .dark)
     
+    private var groups = [Group]()
+    
     private let tableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "groupCell")
+        table.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         return table
     }()
     
@@ -41,6 +56,29 @@ class GroupListViewController: UIViewController {
         view.addSubview(noGroupsLabel)
         setupTableView()
         fetchGroups()
+        startListeningForConversations()
+    }
+    
+    private func startListeningForConversations() {
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return }
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        
+        print("Starting conversation fetch...")
+        DatabaseManager.shared.getAllConversations(for: safeEmail) { [weak self] (result) in
+            switch result {
+            case .success(let groups):
+                print("Succesfully got conversation models")
+                guard !groups.isEmpty  else { return }
+                
+                self?.groups = groups
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to get convos: \(error)")
+            }
+        }
     }
     
     @objc private func didTapComposeButton() {
@@ -58,7 +96,7 @@ class GroupListViewController: UIViewController {
     private func createNewConversation(result: [String : String]) {
         guard let name = result["name"], let email = result["email"] else { return }
         
-        let chatVC = ChatViewController(with: email)
+        let chatVC = ChatViewController(with: email, id: nil)
         chatVC.isNewConversation = true
         chatVC.title = name
         chatVC.navigationItem.largeTitleDisplayMode = .never
@@ -102,24 +140,32 @@ class GroupListViewController: UIViewController {
 // MARK: - Extensions
 extension GroupListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return groups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath)
-        cell.textLabel?.text = "kingCycle"
-        cell.accessoryType = .disclosureIndicator
+        let model = groups[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier, for: indexPath) as! GroupTableViewCell
+        
+        cell.configure(with: model)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let model = groups[indexPath.row]
         
-        let chatVC = ChatViewController(with: "doodoo@gmail.com")
-        chatVC.title = "Mike Jones"
+        let chatVC = ChatViewController(with: model.otherUserEmail, id: model.id)
+        
+        chatVC.title = model.name
         chatVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatVC, animated: true)
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
     
     
