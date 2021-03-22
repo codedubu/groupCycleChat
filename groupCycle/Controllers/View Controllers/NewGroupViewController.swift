@@ -10,10 +10,10 @@ import JGProgressHUD
 
 class NewGroupViewController: UIViewController {
     // MARK: - Propeties
-    public var completion: (([String : String]) -> (Void))?
+    public var completion: ((SearchResult) -> (Void))?
     private var users = [[String: String]]()
     private var hasFetched = false
-    private var results = [[String: String]]()
+    private var results = [SearchResult]()
 
     // MARK: - View Items
     private let spinner = JGProgressHUD(style: .dark)
@@ -27,7 +27,7 @@ class NewGroupViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(NewGroupCell.self, forCellReuseIdentifier: NewGroupCell.identifier)
         return table
     }()
     
@@ -83,7 +83,8 @@ extension NewGroupViewController: UISearchBarDelegate {
         
         results.removeAll()
         spinner.show(in: view)
-        self.searchUsers(query: text)
+        
+        searchUsers(query: text)
     }
     
     func searchUsers(query: String) {
@@ -109,18 +110,36 @@ extension NewGroupViewController: UISearchBarDelegate {
     
     func filterUsers(with term: String) {
         //update UI -> results/no results label
-        guard hasFetched else {
+        guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String, hasFetched else {
             return
         }
+
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: currentUserEmail)
+
         self.spinner.dismiss()
-        
-        let results: [[String : String]] = self.users.filter({
+
+        let results: [SearchResult] = users.filter({
+            guard let email = $0["email"], email != safeEmail else {
+                return false
+            }
+
             guard let name = $0["name"]?.lowercased() else {
                 return false
             }
+
             return name.hasPrefix(term.lowercased())
+        }).compactMap({
+
+            guard let email = $0["email"],
+                let name = $0["name"] else {
+                return nil
+            }
+
+            return SearchResult(name: name, email: email)
         })
+
         self.results = results
+
         updateUI()
     }
     
@@ -144,10 +163,10 @@ extension NewGroupViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let model = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewGroupCell.identifier, for: indexPath) as! NewGroupCell
         
-        cell.textLabel?.text = results[indexPath.row]["name"]
-        
+        cell.configure(with: model)
         return cell
     }
     

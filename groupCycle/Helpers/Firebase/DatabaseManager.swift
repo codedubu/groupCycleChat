@@ -39,29 +39,6 @@ struct GroupCycleUser {
 
 // MARK: - Extensions
 extension DatabaseManager {
-    /*
-     "ksd992j2jdkjse" {
-     "messages": [
-     {
-     "id": String,
-     "type": text, photo, video,
-     "content": String,
-     "date": Date(),
-     "sender_email": "message"
-     "is_read": true/false
-     
-     conversation => [
-     [
-     "conversation_id": "aksd992j2jdkjse"
-     "other_user_email:
-     "latest_message": => {
-     "date": Date()
-     "latest_message": "message"
-     "is_read": true/false
-     }
-     ],
-     ]
-     */
     
     /// Creates a new conversation with target user email and first messages sent.
     public func createNewConversation(with otherUserEmail: String, name: String, firstMessage: Message, completion: @escaping (Bool) -> Void) {
@@ -135,7 +112,7 @@ extension DatabaseManager {
                 if var conversations = snapshot.value as? [[String : Any]] {
                     // append
                     conversations.append(recipient_newConversationData)
-                    self?.database.child("\(otherUserEmail)/conversations").setValue(conversationID)
+                    self?.database.child("\(otherUserEmail)/conversations").setValue(conversations)
                     
                 } else {
                     // create
@@ -459,11 +436,9 @@ extension DatabaseManager {
 extension DatabaseManager {
     public func userExists(with email: String, completion: @escaping ((Bool) -> Void)) {
         
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         database.child(safeEmail).observeSingleEvent(of: .value) { (snapshot) in
-            guard snapshot.value as? String != nil else {
+            guard snapshot.value as? [String : Any] != nil else {
                 completion(false)
                 return
             }
@@ -476,27 +451,14 @@ extension DatabaseManager {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
             "last_name": user.lastName
-        ], withCompletionBlock: { error, _ in
+        ], withCompletionBlock: { [weak self] error, _ in
             guard error == nil else {
                 print("Failed to write to database.")
                 completion(false)
                 return
             }
             
-            
-            /*
-             users => [
-             [
-             [
-             "name":
-             "safe_email":
-             ],
-             [      "name":
-             "safe_email":
-             ]
-             */
-            
-            self.database.child("users").observeSingleEvent(of: .value) { (snapShot) in
+            self?.database.child("users").observeSingleEvent(of: .value) { (snapShot) in
                 if var usersCollection = snapShot.value as? [[String : String]] {
                     // append to user dictionary
                     let newElement =  ["name" : user.firstName + " " + user.lastName,
@@ -504,7 +466,7 @@ extension DatabaseManager {
                     ]
                     usersCollection.append(newElement)
                     
-                    self.database.child("users").setValue(usersCollection) { (error, _) in
+                    self?.database.child("users").setValue(usersCollection) { (error, _) in
                         guard error == nil else {
                             completion(false)
                             return
@@ -518,7 +480,7 @@ extension DatabaseManager {
                          "email" : user.safeEmail
                         ]
                     ]
-                    self.database.child("users").setValue(newCollection) { (error, _) in
+                    self?.database.child("users").setValue(newCollection) { (error, _) in
                         guard error == nil else { return }
                         completion(true)
                     }
@@ -539,9 +501,77 @@ extension DatabaseManager {
         }
     }
     
+    public func deleteConversation(conversationID: String, completion: @escaping(Bool) -> Void) {
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        
+        print("Deleteing conversation with ID: \(conversationID)")
+        // Get all conversations for current user
+        // Delete conversation in collection with target ID
+        // Reset those conv ersations for the user in database
+        let reference = database.child("\(safeEmail)/conversations")
+        reference.observeSingleEvent(of: .value) { (snapshot) in
+            if var conversations = snapshot.value as? [[String : Any]] {
+                var positionToRemove = 0
+                for message in conversations {
+                    if let ID = message["id"] as? String,
+                       ID == conversationID {
+                        print("Found message to delete")
+                        break
+                    }
+                    positionToRemove += 1
+                }
+                conversations.remove(at: positionToRemove)
+                reference.setValue(conversations) { (error, _) in
+                    guard error == nil else {
+                        completion(false)
+                        return
+                    }
+                    print("Deleted conversation")
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    public func conversationExists(with targetRecipientEmail: String, completion: @escaping(Result<String, Error>) -> Void) {
+        let safeRecipientEmail = DatabaseManager.safeEmail(emailAddress: targetRecipientEmail)
+        guard let senderEmail = UserDefaults.standard.value(forKey: "email") as? String else { return }
+        let safeSenderEmail = DatabaseManager.safeEmail(emailAddress: senderEmail)
+        
+        database.child("\(safeRecipientEmail)/conversations").observeSingleEvent(of: .value) { (snapshot) in
+            guard let collection = snapshot.value as? [[String : Any]] else {
+                completion(.failure(DatabaseError.failedToFetch))
+                return
+            }
+            
+            // iterate and find conversation with target sender
+            if let conversation = collection.first(where: {
+                guard let targetSenderEmail = $0["other_user_email"] as? String else {
+                    return false
+                }
+                return safeSenderEmail == targetSenderEmail
+            }) {
+                // get id
+                guard let id = conversation["id"] as? String else {
+                    completion(.failure(DatabaseError.failedToFetch))
+                    return
+                }
+                completion(.success(id))
+                return
+            }
+            completion(.failure(DatabaseError.failedToFetch))
+            return
+        }
+        
+    }
+    
     public enum DatabaseError: Error {
         case failedToFetch
     }
+    
+    
     
 } // END OF EXTENSION
 

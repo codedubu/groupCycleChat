@@ -77,7 +77,7 @@
         <scene sceneID="887-pe-u7q">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PUR-bN-AkN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Groups" id="d7H-tg-jgE"/>
+                    <tabBarItem key="tabBarItem" title="Groups" image="bubble.left.and.bubble.right.fill" catalog="system" id="d7H-tg-jgE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="cRZ-Hf-pVU">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -96,7 +96,7 @@
         <scene sceneID="Bk4-mD-6BL">
             <objects>
                 <navigationController id="NM5-nf-9KI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="iLj-pN-7yb"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="iLj-pN-7yb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="s3i-p9-jQJ">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -111,6 +111,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

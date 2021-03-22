@@ -12,7 +12,7 @@ import JGProgressHUD
 struct Group {
     let id: String
     let name: String
-    let otherUserEmail: String
+    var otherUserEmail: String
     let latestMessage: LatestMessage
 }
 
@@ -45,11 +45,12 @@ class GroupListViewController: UIViewController {
         return label
     }()
     
+    private var loginObserver: NSObjectProtocol?
+    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
-
         
         // MARK: - Subviews
         view.addSubview(tableView)
@@ -57,10 +58,21 @@ class GroupListViewController: UIViewController {
         setupTableView()
         fetchGroups()
         startListeningForConversations()
+        
+        loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil, queue: .main) { [weak self] (_) in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.startListeningForConversations()
+        }
     }
     
     private func startListeningForConversations() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return }
+        
+        if let observer = loginObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        
         let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
         
         print("Starting conversation fetch...")
@@ -82,25 +94,56 @@ class GroupListViewController: UIViewController {
     }
     
     @objc private func didTapComposeButton() {
-        let newGroup = NewGroupViewController()
-        
-        newGroup.completion = { [weak self] result in
-            print("\(result)")
-            self?.createNewConversation(result: result)
+        let vc = NewGroupViewController()
+        vc.completion = { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentConversations = strongSelf.groups
+
+            if let targetConversation = currentConversations.first(where: {
+                $0.otherUserEmail == DatabaseManager.safeEmail(emailAddress: result.email)
+            }) {
+                let vc = ChatViewController(with: targetConversation.otherUserEmail, id: targetConversation.id)
+                vc.isNewConversation = false
+                vc.title = targetConversation.name
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+            else {
+                strongSelf.createNewConversation(result: result)
+            }
         }
-        
-        let navVC = UINavigationController(rootViewController: newGroup)
+        let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
     }
     
-    private func createNewConversation(result: [String : String]) {
-        guard let name = result["name"], let email = result["email"] else { return }
+    private func createNewConversation(result: SearchResult) {
+        let name = result.name
+        let email = DatabaseManager.safeEmail(emailAddress: result.email)
         
-        let chatVC = ChatViewController(with: email, id: nil)
-        chatVC.isNewConversation = true
-        chatVC.title = name
-        chatVC.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(chatVC, animated: true)
+        // check in databse if conversation with these two user exits
+        // if it does, reuse conversation id
+        // otherwise use existing code
+        
+        DatabaseManager.shared.conversationExists(with: email) { [weak self] (result) in
+            switch result {
+            case .success(let conversationID):
+                let chatVC = ChatViewController(with: email, id: conversationID)
+                chatVC.isNewConversation = false
+                chatVC.title = name
+                chatVC.navigationItem.largeTitleDisplayMode = .never
+                self?.navigationController?.pushViewController(chatVC, animated: true)
+            case.failure(_):
+                let chatVC = ChatViewController(with: email, id: nil)
+                chatVC.isNewConversation = true
+                chatVC.title = name
+                chatVC.navigationItem.largeTitleDisplayMode = .never
+                self?.navigationController?.pushViewController(chatVC, animated: true)
+            }
+        }
+
         
     }
     
@@ -155,17 +198,43 @@ extension GroupListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let model = groups[indexPath.row]
-        
+        openConversation(model)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
+    
+    func openConversation(_ model: Group) {
         let chatVC = ChatViewController(with: model.otherUserEmail, id: model.id)
         
         chatVC.title = model.name
         chatVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(chatVC, animated: true)
-        
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // begin delete
+            let conversationID = groups[indexPath.row].id
+            
+            tableView.beginUpdates()
+            
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID) { [weak self](success) in
+                if success {
+                    self?.groups.remove(at: indexPath.row)
+                    
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+            
+            tableView.endUpdates()
+        }
     }
     
     
