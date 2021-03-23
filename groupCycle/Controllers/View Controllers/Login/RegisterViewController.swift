@@ -226,6 +226,9 @@ class RegisterViewController: UIViewController {
                     return
                 }
                 
+                UserDefaults.standard.setValue(email, forKey: "email")
+                UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
+                
                 let groupCycleUser = GroupCycleUser(firstName: firstName,
                                                     lastName: lastName,
                                                     emailAddress: email)
