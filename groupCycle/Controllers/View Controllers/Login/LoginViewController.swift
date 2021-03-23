@@ -13,7 +13,7 @@ import JGProgressHUD
 
 class LoginViewController: UIViewController {
     
-    // MARK: - Assets
+    // MARK: - View Items
     private let spinner = JGProgressHUD(style: .dark)
     
     private let scrollView: UIScrollView = {
@@ -97,20 +97,14 @@ class LoginViewController: UIViewController {
         title = "Log In"
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register →",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapRegister))
-        
-        // MARK: - Targets
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register →", style: .done, target: self, action: #selector(didTapRegister))
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        
+
         emailField.delegate = self
         passwordField.delegate = self
-        
         facebookLoginButton.delegate = self
         
-        // MARK: - Subviews
+        // Subviews
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(emailField)
@@ -204,7 +198,6 @@ class LoginViewController: UIViewController {
             }
             
             UserDefaults.standard.set(email, forKey: "email")
-   
 
             print("Logged in with user: \(user)")
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
@@ -228,7 +221,6 @@ class LoginViewController: UIViewController {
 
 // MARK: - Extensions
 extension LoginViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == emailField {
@@ -313,7 +305,6 @@ extension LoginViewController: LoginButtonDelegate {
             }
             
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
-            
             FirebaseAuth.Auth.auth().signIn(with: credential, completion: { [weak self] (authResult, error) in
                 guard let strongSelf = self else {
                     return

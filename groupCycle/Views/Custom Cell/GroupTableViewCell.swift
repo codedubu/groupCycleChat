@@ -67,8 +67,8 @@ class GroupTableViewCell: UITableViewCell {
   
     // MARK: - Helper Methods
     public func configure(with model: Group) {
-        self.userMessageLabel.text = model.latestMessage.text
-        self.usernameLabel.text = model.name
+        userMessageLabel.text = model.latestMessage.text
+        usernameLabel.text = model.name
         
         let path = "images\(model.otherUserEmail)_profile_picture.png"
         StorageManager.shared.downloadURL(for: path, completion: { [weak self] (result) in

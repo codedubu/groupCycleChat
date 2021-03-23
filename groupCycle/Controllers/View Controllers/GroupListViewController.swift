@@ -9,19 +9,6 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-struct Group {
-    let id: String
-    let name: String
-    var otherUserEmail: String
-    let latestMessage: LatestMessage
-}
-
-struct LatestMessage {
-    let date: String
-    let text: String
-    let isRead: Bool
-}
-
 class GroupListViewController: UIViewController {
     // MARK: - View Items
     private let spinner = JGProgressHUD(style: .dark)
@@ -57,7 +44,6 @@ class GroupListViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(noGroupsLabel)
         setupTableView()
-        fetchGroups()
         startListeningForConversations()
         
         loginObserver = NotificationCenter.default.addObserver(forName: .didLoginNotification, object: nil, queue: .main) { [weak self] (_) in
@@ -67,6 +53,18 @@ class GroupListViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        validateAuth()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        noGroupsLabel.frame = CGRect(x: 10, y: (view.height-100)/2, width: view.width-20, height: 100)
+    }
+    
+    // MARK: - Helper Methods
     private func startListeningForConversations() {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return }
         
@@ -81,14 +79,22 @@ class GroupListViewController: UIViewController {
             switch result {
             case .success(let groups):
                 print("Succesfully got conversation models")
-                guard !groups.isEmpty  else { return }
+                guard !groups.isEmpty  else {
+                    self?.tableView.isHidden = true
+                    self?.noGroupsLabel.isHidden = false
+                    return
+                }
                 
+                self?.noGroupsLabel.isHidden = true
+                self?.tableView.isHidden = false
                 self?.groups = groups
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
             case .failure(let error):
+                self?.tableView.isHidden = true
+                self?.noGroupsLabel.isHidden = false
                 print("Failed to get convos: \(error)")
             }
         }
@@ -144,24 +150,11 @@ class GroupListViewController: UIViewController {
                 self?.navigationController?.pushViewController(chatVC, animated: true)
             }
         }
-
-        
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        validateAuth()
-        
-    }
-    
+ 
     // MARK: - Helper Methods
     private func validateAuth() {
-        
         if FirebaseAuth.Auth.auth().currentUser == nil {
             let loginVC = LoginViewController()
             let navVC = UINavigationController(rootViewController: loginVC)
@@ -237,7 +230,6 @@ extension GroupListViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.endUpdates()
         }
     }
-    
     
 } // END OF EXTENSION
 

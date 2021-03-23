@@ -86,7 +86,7 @@ extension NewGroupViewController: UISearchBarDelegate {
         
         searchUsers(query: text)
     }
-    
+    /// User Search Functionality
     func searchUsers(query: String) {
         // check if array has fire base results
         if hasFetched {
@@ -157,6 +157,7 @@ extension NewGroupViewController: UISearchBarDelegate {
     
 } // END OF EXTENSION
 
+// MARK: - TableView Delegate & Data Source
 extension NewGroupViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         results.count
@@ -172,7 +173,6 @@ extension NewGroupViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        //start conversation
         let targetUserData = results[indexPath.row]
         
         dismiss(animated: true, completion: { [weak self] in

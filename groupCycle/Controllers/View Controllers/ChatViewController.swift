@@ -9,51 +9,22 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 
-// MARK: - Message Properties
-struct Message: MessageType {
-    public var sender: SenderType
-    public var messageId: String
-    public var sentDate: Date
-    public var kind: MessageKind
-} // END OF STRUCT
-
-extension MessageKind {
-    var messageKindString: String {
-        switch self {
-        case .text(_):
-            return "text"
-        case .attributedText(_):
-            return "attributed_text"
-        case .photo(_):
-            return "photo"
-        case .video(_):
-            return "video"
-        case .location(_):
-            return "location"
-        case .emoji(_):
-            return "emoji"
-        case .audio(_):
-            return "audio"
-        case .contact(_):
-            return "contact"
-        case .linkPreview(_):
-            return "link_preview"
-        case .custom(_):
-            return "custom"
-        }
-    }
-}
-
-struct Sender: SenderType {
-    public var photoURL: String
-    public var senderId: String
-    public var displayName: String
-} // END OF STRUCT
-
 class ChatViewController: MessagesViewController {
-    
+    // MARK: - Properties
     private var senderPhotoURL: URL?
     private var otherUserPhotoURL: URL?
+    public let otherUserEmail: String
+    public var isNewConversation = false
+    private var conversationID: String?
+    private var messages = [Message]()
+
+    private var selfSender: Sender? {
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return nil }
+        
+        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
+        
+        return Sender(photoURL: "", senderId: safeEmail, displayName: "Me")
+    }
     
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -63,19 +34,6 @@ class ChatViewController: MessagesViewController {
         return formatter
     }()
     
-    public let otherUserEmail: String
-    private var conversationID: String?
-    public var isNewConversation = false
-    
-    private var messages = [Message]()
-    
-    private var selfSender: Sender? {
-        guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return nil }
-        
-        let safeEmail = DatabaseManager.safeEmail(emailAddress: email)
-        
-        return Sender(photoURL: "", senderId: safeEmail, displayName: "Me")
-    }
     
     init(with email: String, id: String?) {
         self.conversationID = id
@@ -122,7 +80,6 @@ class ChatViewController: MessagesViewController {
                         self?.messagesCollectionView.scrollToLastItem()
                     }
                 }
-                    
             case .failure(let error):
                 print("Failed to get messages: \(error)")
             }
@@ -174,6 +131,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
         }
     }
     
+    // MARK: - Helper Methods
     private func createMessageID() -> String? {
         //date, otherUserEmail, senderEmail, randomInt
         guard let currentUserEmail = UserDefaults.standard.value(forKey: "email") as? String else { return nil }
@@ -189,6 +147,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     
 } // END OF EXTENSION
 
+// MARK: - Messages DataSource & Delegates
 extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     func currentSender() -> SenderType {
         if let sender = selfSender {
@@ -273,7 +232,6 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                 })
             }
         }
-
     }
     
 } // END OF EXTENSION

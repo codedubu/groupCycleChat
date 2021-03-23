@@ -11,29 +11,20 @@ import FBSDKLoginKit
 import GoogleSignIn
 import SDWebImage
 
-
-enum ProfileViewModelType {
-    case info, logout
-}
-
-struct ProfileViewModel {
-    let viewModelType: ProfileViewModelType
-    let title: String
-    let handler: (() -> Void)?
-} // END OF STRUCT
-
 class ProfileViewController: UIViewController {
-    
-    @IBOutlet var tableView: UITableView!
-    
+    // MARK: - Properties
     var data = [ProfileViewModel]()
     
+    // MARK: - Outlets
+    @IBOutlet var tableView: UITableView!
+    
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.register(ProfileTableViewCell.self,
                            forCellReuseIdentifier: ProfileTableViewCell.identifier)
-
+        
         data.append(ProfileViewModel(viewModelType: .info, title: "Name: \(UserDefaults.standard.value(forKey: "name") as? String ?? "No name")", handler: nil))
         data.append(ProfileViewModel(viewModelType: .info, title: "Email: \(UserDefaults.standard.value(forKey: "email") as? String ?? "No email")", handler: nil))
         data.append(ProfileViewModel(viewModelType: .logout, title: "Log Out", handler: { [weak self] in
@@ -49,7 +40,7 @@ class ProfileViewController: UIViewController {
                 
                 UserDefaults.standard.setValue(nil, forKey: "email")
                 UserDefaults.standard.setValue(nil, forKey: "name")
-                                
+                
                 // Log Out facebook
                 FBSDKLoginKit.LoginManager().logOut()
                 
@@ -84,8 +75,6 @@ class ProfileViewController: UIViewController {
         tableView.tableHeaderView = createTableHeader()
     }
     
-
-   
     // MARK: - Helper Methods
     func createTableHeader() -> UIView? {
         guard let email = UserDefaults.standard.value(forKey: "email") as? String else { return nil }
@@ -95,10 +84,8 @@ class ProfileViewController: UIViewController {
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: 300))
         headerView.backgroundColor = .link
-        let imageView = UIImageView(frame: CGRect(x: (headerView.width - 150) / 2,
-                                                  y: 75,
-                                                  width: 150,
-                                                  height: 150))
+        
+        let imageView = UIImageView(frame: CGRect(x: (headerView.width - 150) / 2, y: 75, width: 150, height: 150))
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .white
         imageView.layer.borderColor = UIColor.white.cgColor
@@ -123,6 +110,8 @@ class ProfileViewController: UIViewController {
 } // END OF CLASS
 
 // MARK: - Extenisons
+
+// MARK: - TableView Delegate & DataSource
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -147,12 +136,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
 } // END OF EXTENSION
 
-// MARK: - Custom Cells
+// MARK: - Profile Cells
 
 class ProfileTableViewCell: UITableViewCell {
-
+    
     static let identifier = "ProfileTableViewCell"
-
+    
     public func setUp(with viewModel: ProfileViewModel) {
         self.textLabel?.text = viewModel.title
         switch viewModel.viewModelType {
@@ -164,5 +153,5 @@ class ProfileTableViewCell: UITableViewCell {
             textLabel?.textAlignment = .center
         }
     }
-
+    
 } // END OF CLASS

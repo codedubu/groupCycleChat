@@ -11,7 +11,7 @@ import JGProgressHUD
 
 class RegisterViewController: UIViewController {
     
-    // MARK: - Assets
+    // MARK: - View Items
     private let spinner = JGProgressHUD(style: .dark)
     
     private let scrollView: UIScrollView = {
@@ -112,19 +112,14 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         title = "Log In"
         view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",style: .done, target: self, action: #selector(didTapRegister))
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapRegister))
-        
-        // MARK: - Targets
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
         emailField.delegate = self
         passwordField.delegate = self
         
-        // MARK: - Subviews
+        // Subviews
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(firstNameField)
@@ -182,7 +177,6 @@ class RegisterViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func registerButtonTapped() {
-        
         firstNameField.resignFirstResponder()
         lastNameField.resignFirstResponder()
         emailField.resignFirstResponder()

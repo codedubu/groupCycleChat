@@ -22,6 +22,12 @@
 		79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */; };
 		79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79247B3825FBF70F00FAF76C /* ProfileViewController.swift */; };
 		7932CD382603BEDD00A7CB08 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7932CD372603BEDD00A7CB08 /* GroupTableViewCell.swift */; };
+		7937BB77260A702300EBF749 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB76260A702300EBF749 /* ProfileViewModel.swift */; };
+		7937BB7A260A719600EBF749 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB79260A719600EBF749 /* GroupModel.swift */; };
+		7937BB7D260A731300EBF749 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB7C260A731300EBF749 /* MessageModel.swift */; };
+		7937BB80260A75F200EBF749 /* GroupCycleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB7F260A75F200EBF749 /* GroupCycleUser.swift */; };
+		7937BB83260A776500EBF749 /* DatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB82260A776500EBF749 /* DatabaseError.swift */; };
+		7937BB87260A78F600EBF749 /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937BB86260A78F600EBF749 /* StorageError.swift */; };
 		79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C7D25FBFD00005CBCBD /* Extensions.swift */; };
 		79DF7C9225FC0D1D005CBCBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */; };
 		79DF7C9725FED320005CBCBD /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF7C9625FED320005CBCBD /* DatabaseManager.swift */; };
@@ -48,6 +54,12 @@
 		79247B3525FBF6FF00FAF76C /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
 		79247B3825FBF70F00FAF76C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7932CD372603BEDD00A7CB08 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
+		7937BB76260A702300EBF749 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		7937BB79260A719600EBF749 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		7937BB7C260A731300EBF749 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		7937BB7F260A75F200EBF749 /* GroupCycleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCycleUser.swift; sourceTree = "<group>"; };
+		7937BB82260A776500EBF749 /* DatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseError.swift; sourceTree = "<group>"; };
+		7937BB86260A78F600EBF749 /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		79DF7C7D25FBFD00005CBCBD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		79DF7C9125FC0D1D005CBCBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		79DF7C9625FED320005CBCBD /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -157,6 +169,10 @@
 		79247B2B25FBF5A200FAF76C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7937BB76260A702300EBF749 /* ProfileViewModel.swift */,
+				7937BB79260A719600EBF749 /* GroupModel.swift */,
+				7937BB7C260A731300EBF749 /* MessageModel.swift */,
+				7937BB7F260A75F200EBF749 /* GroupCycleUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -194,6 +210,8 @@
 				79DF7C9525FED313005CBCBD /* Firebase */,
 				79DF7C7D25FBFD00005CBCBD /* Extensions.swift */,
 				790DA7C326092279001793C7 /* SearchResult.swift */,
+				7937BB82260A776500EBF749 /* DatabaseError.swift */,
+				7937BB86260A78F600EBF749 /* StorageError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -359,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7937BB87260A78F600EBF749 /* StorageError.swift in Sources */,
 				79247B2E25FBF6BD00FAF76C /* LoginViewController.swift in Sources */,
 				79247B3625FBF6FF00FAF76C /* NewGroupViewController.swift in Sources */,
 				79229D6025FFEDF200924CD8 /* StorageManager.swift in Sources */,
@@ -368,11 +387,16 @@
 				79DF7C7E25FBFD00005CBCBD /* Extensions.swift in Sources */,
 				79247B1325FBEBF000FAF76C /* GroupListViewController.swift in Sources */,
 				790DA7C42609227A001793C7 /* SearchResult.swift in Sources */,
+				7937BB7A260A719600EBF749 /* GroupModel.swift in Sources */,
+				7937BB83260A776500EBF749 /* DatabaseError.swift in Sources */,
+				7937BB7D260A731300EBF749 /* MessageModel.swift in Sources */,
+				7937BB77260A702300EBF749 /* ProfileViewModel.swift in Sources */,
 				79247B3925FBF70F00FAF76C /* ProfileViewController.swift in Sources */,
 				79247B0F25FBEBF000FAF76C /* AppDelegate.swift in Sources */,
 				79247B1125FBEBF000FAF76C /* SceneDelegate.swift in Sources */,
 				79DF7D1425FFD612005CBCBD /* ChatViewController.swift in Sources */,
 				79DF7C9725FED320005CBCBD /* DatabaseManager.swift in Sources */,
+				7937BB80260A75F200EBF749 /* GroupCycleUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

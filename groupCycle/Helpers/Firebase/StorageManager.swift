@@ -10,19 +10,18 @@ import FirebaseStorage
 
 final class StorageManager {
     
+    // MARK: - Properties
     static let shared = StorageManager()
-    
     private let storage = Storage.storage().reference()
-    
-    /*
-     /images/rivdawg-12-gmail-com_profile_picture.png
-     */
     
     public typealias UploadPictureCompletion = (Result<String, Error>)
     
+    // MARK: - Helper Methods
     /// Uploads picture to firebase storage and returns completion with URL string to download.
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping (UploadPictureCompletion) -> Void) {
-        storage.child("images\(fileName)").putData(data, metadata: nil, completion: { metadata, error in
+        storage.child("images\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in
+            guard let strongSelf = self else { return }
+            
             guard error == nil else {
                 //failed
                 print("Failed to upload picture data to Firebase.")
@@ -30,7 +29,7 @@ final class StorageManager {
                 return
             }
             
-            self.storage.child("images\(fileName)").downloadURL(completion: { url, error in
+            strongSelf.storage.child("images\(fileName)").downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("Failed to get download URL")
                     completion(.failure(StorageErrors.failedToGetDownloadURL))
@@ -44,7 +43,6 @@ final class StorageManager {
         })
     }
     
-    // MARK: - Helper Methods
     public func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
     let reference = storage.child(path)
         
@@ -57,12 +55,6 @@ final class StorageManager {
             print("Download url returned: \(urlString)")
             completion(.success(url))
         })
-    }
-    
-    // MARK: - Error Enums
-    public enum StorageErrors: Error {
-        case failedToUplaod
-        case failedToGetDownloadURL
     }
     
 } // END OF CLASS
