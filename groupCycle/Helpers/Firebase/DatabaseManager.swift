@@ -21,8 +21,6 @@ final class DatabaseManager {
     
 } // END OF CLASS
 
-
-
 // MARK: - Message Sending / Holding Conversations
 extension DatabaseManager {
     /// Creates a new conversation with target user email and first messages sent.
@@ -256,7 +254,7 @@ extension DatabaseManager {
     }
     
     /// Sends a message with target conversation and message
-    public func sendMessages(to conversation: String, otherUserEmail: String, name:String, newMessage: Message, completion: @escaping (Bool) -> Void) {
+    public func sendMessages(to conversation: String, otherUserEmail: String, name: String, newMessage: Message, completion: @escaping (Bool) -> Void) {
         // add new message to message
         // update sender latest message
         // update recipient latest message
@@ -324,12 +322,16 @@ extension DatabaseManager {
             
             currentMessages.append(newMessageEntry)
             
+            // currentMessages = ["0","1"]
+            
             strongSelf.database.child("\(conversation)/messages").setValue(currentMessages) { (error, _) in
                 guard error == nil else {
                     completion(false)
                     return
                 }
                 
+                
+    // update receipient and current message strings
                 strongSelf.database.child("\(currentEmail)/conversations").observeSingleEvent(of: .value) { (snapshot) in
                     var databaseEntryConversations = [[String : Any]]()
                     let updatedValue: [String : Any] = [
